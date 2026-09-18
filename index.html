@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kt ds 컨소시엄 교실 영상</title>
+<meta name="description" content="kt ds 국가인적자원개발컨소시엄 교육 오프닝·클로징 영상 재생">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root{
+    --red:#E5002B; --ink:#18171C; --gray:#707078; --box:#ECECEE; --bg:#fff;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:Pretendard,-apple-system,"Malgun Gothic",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1000px;margin:0 auto;padding:48px 24px 64px}
+  header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+  .logo{font-weight:800;font-size:26px;letter-spacing:-.02em}
+  .logo b{color:var(--red)}
+  .sub{color:var(--gray);font-size:15px}
+  h1{font-size:clamp(28px,5vw,44px);font-weight:800;letter-spacing:-.03em;margin:22px 0 6px}
+  .lead{color:var(--gray);font-size:17px;margin:0 0 34px;line-height:1.6}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+  .card{
+    border:2px solid var(--box); border-radius:20px; padding:28px 26px 24px;
+    background:#fff; text-align:left; cursor:pointer; width:100%;
+    font:inherit; color:inherit; transition:border-color .15s, transform .15s;
+  }
+  .card:hover,.card:focus-visible{border-color:var(--red);transform:translateY(-2px);outline:none}
+  .tag{
+    display:inline-block;font-size:13px;font-weight:700;padding:6px 13px;border-radius:99px;
+    background:var(--red);color:#fff;letter-spacing:.01em
+  }
+  .tag.gray{background:var(--box);color:var(--ink)}
+  .card h2{font-size:30px;font-weight:800;letter-spacing:-.02em;margin:16px 0 6px}
+  .card p{margin:0;color:var(--gray);font-size:15px;line-height:1.65}
+  .meta{margin-top:18px;padding-top:16px;border-top:1px solid var(--box);
+        display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--gray)}
+  .play{font-weight:800;color:var(--red)}
+  .note{margin-top:40px;font-size:14px;color:var(--gray);line-height:1.8}
+  .note b{color:var(--ink)}
+  .note a{color:var(--red)}
+  kbd{background:var(--box);border-radius:6px;padding:2px 7px;font-size:13px;font-family:inherit}
+
+  /* 재생 화면 */
+  #stage{position:fixed;inset:0;background:#000;display:none;z-index:99}
+  #stage.on{display:block}
+  #stage video{width:100%;height:100%;object-fit:contain;background:#000}
+  #close{
+    position:fixed;top:18px;right:18px;z-index:100;border:0;border-radius:99px;
+    background:rgba(255,255,255,.14);color:#fff;font:inherit;font-weight:700;
+    padding:11px 20px;cursor:pointer;opacity:0;transition:opacity .2s
+  }
+  #stage:hover #close, #close:focus-visible{opacity:1}
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){--bg:#101014;--ink:#F3F3F5;--box:#2A2A31;--gray:#9A9AA4}
+    :root:not([data-theme="light"]) .card{background:#17171C}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="logo">kt<b>ds</b> University</span>
+    <span class="sub">국가인적자원개발컨소시엄</span>
+  </header>
+
+  <h1>교실 영상</h1>
+  <p class="lead">
+    강의실 PC에서 이 주소만 열면 오프닝·클로징을 바로 틀 수 있습니다.<br>
+    카드를 누르면 전체화면으로 재생됩니다. 끝내려면 <kbd>Esc</kbd>.
+  </p>
+
+  <div class="cards">
+    <button class="card" data-src="media/opening.mp4" data-loop="0" id="btn-open">
+      <span class="tag">수업 시작 전</span>
+      <h2>오프닝</h2>
+      <p>컨소시엄 소개와 교육 안내.<br>입실 시간에 한 번 재생합니다.</p>
+      <div class="meta"><span>1분 24초 · 소리 있음</span><span class="play">재생 ▶</span></div>
+    </button>
+
+    <button class="card" data-src="media/closing.mp4" data-loop="1" id="btn-close">
+      <span class="tag gray">수업 종료 후</span>
+      <h2>클로징</h2>
+      <p>다음 과정 안내와 개강 일정.<br>퇴실 시간에 반복 재생합니다.</p>
+      <div class="meta"><span>3분 27초 · 배경음 · 반복</span><span class="play">재생 ▶</span></div>
+    </button>
+  </div>
+
+  <p class="note">
+    <b>클로징에 담긴 일정</b> — 2026-09-18 기준, 모집중 22개 과정 카드 + 9~12월 개강 81차수.
+    폐강된 차수는 빼고 만듭니다. 일정이 바뀌면 생성기를 다시 돌려 영상을 교체합니다.<br>
+    <b>배경음</b> — 카페 같은 낮은 룸톤을 합성해 넣었습니다(외부 음원 없음). 오프닝보다 조용하게 맞췄습니다.<br>
+    <b>인터넷이 느린 강의실</b> — 영상을 내려받아 두면 더 안정적입니다 ·
+    <a href="media/opening.mp4" download>오프닝 내려받기</a> ·
+    <a href="media/closing.mp4" download>클로징 내려받기</a>
+  </p>
+</div>
+
+<div id="stage">
+  <button id="close" type="button">닫기 (Esc)</button>
+  <video id="player" playsinline controls></video>
+</div>
+
+<script>
+  const stage = document.getElementById('stage');
+  const player = document.getElementById('player');
+
+  function play(src, loop){
+    player.src = src;
+    player.loop = !!loop;
+    stage.classList.add('on');
+    const go = player.play();
+    if (go && go.catch) go.catch(()=>{});           // 자동재생이 막히면 컨트롤로 재생
+    if (stage.requestFullscreen) stage.requestFullscreen().catch(()=>{});
+  }
+
+  function stop(){
+    player.pause();
+    player.removeAttribute('src');
+    player.load();
+    stage.classList.remove('on');
+    if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(()=>{});
+  }
+
+  document.querySelectorAll('.card').forEach(b=>{
+    b.addEventListener('click', ()=> play(b.dataset.src, b.dataset.loop === '1'));
+  });
+  document.getElementById('close').addEventListener('click', stop);
+  document.addEventListener('keydown', e=>{
+    if (e.key === 'Escape' && stage.classList.contains('on')) stop();
+    if (stage.classList.contains('on')) return;
+    if (e.key === 'o' || e.key === 'O') document.getElementById('btn-open').click();
+    if (e.key === 'c' || e.key === 'C') document.getElementById('btn-close').click();
+  });
+  player.addEventListener('ended', ()=>{ if (!player.loop) stop(); });
+
+  // 주소 뒤에 ?v=open / ?v=close 를 붙이면 그 영상으로 바로 들어간다(재생 버튼 한 번은 눌러야 함)
+  const v = new URLSearchParams(location.search).get('v');
+  if (v === 'open') document.getElementById('btn-open').focus();
+  if (v === 'close') document.getElementById('btn-close').focus();
+</script>
+</body>
+</html>
