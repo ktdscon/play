@@ -8,58 +8,61 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
-  :root{
-    --red:#E5002B; --ink:#18171C; --gray:#707078; --box:#ECECEE; --bg:#fff;
-  }
+  :root{ --red:#E5002B; --ink:#18171C; --gray:#707078; --box:#ECECEE; --bg:#fff; --card:#fff; }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
-  body{
-    background:var(--bg); color:var(--ink);
-    font-family:Pretendard,-apple-system,"Malgun Gothic",sans-serif;
-    -webkit-font-smoothing:antialiased;
-  }
-  .wrap{max-width:1000px;margin:0 auto;padding:48px 24px 64px}
-  header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+  body{background:var(--bg);color:var(--ink);
+       font-family:Pretendard,-apple-system,"Malgun Gothic",sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1040px;margin:0 auto;padding:48px 24px 72px}
+  header{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
   .logo{font-weight:800;font-size:26px;letter-spacing:-.02em}
   .logo b{color:var(--red)}
   .sub{color:var(--gray);font-size:15px}
   h1{font-size:clamp(28px,5vw,44px);font-weight:800;letter-spacing:-.03em;margin:22px 0 6px}
   .lead{color:var(--gray);font-size:17px;margin:0 0 34px;line-height:1.6}
   .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
-  .card{
-    border:2px solid var(--box); border-radius:20px; padding:28px 26px 24px;
-    background:#fff; text-align:left; cursor:pointer; width:100%;
-    font:inherit; color:inherit; transition:border-color .15s, transform .15s;
-  }
+  .card{border:2px solid var(--box);border-radius:20px;padding:28px 26px 24px;background:var(--card);
+        text-align:left;cursor:pointer;width:100%;font:inherit;color:inherit;
+        transition:border-color .15s,transform .15s}
   .card:hover,.card:focus-visible{border-color:var(--red);transform:translateY(-2px);outline:none}
-  .tag{
-    display:inline-block;font-size:13px;font-weight:700;padding:6px 13px;border-radius:99px;
-    background:var(--red);color:#fff;letter-spacing:.01em
-  }
+  .tag{display:inline-block;font-size:13px;font-weight:700;padding:6px 13px;border-radius:99px;
+       background:var(--red);color:#fff}
   .tag.gray{background:var(--box);color:var(--ink)}
   .card h2{font-size:30px;font-weight:800;letter-spacing:-.02em;margin:16px 0 6px}
   .card p{margin:0;color:var(--gray);font-size:15px;line-height:1.65}
   .meta{margin-top:18px;padding-top:16px;border-top:1px solid var(--box);
         display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--gray)}
   .play{font-weight:800;color:var(--red)}
-  .note{margin-top:40px;font-size:14px;color:var(--gray);line-height:1.8}
+
+  #picker{display:none;margin-top:34px;border-top:2px solid var(--box);padding-top:28px}
+  #picker.on{display:block}
+  #picker h3{font-size:22px;font-weight:800;margin:0 0 4px}
+  #picker .hint{color:var(--gray);font-size:15px;margin:0 0 18px;line-height:1.6}
+  #q{width:100%;padding:15px 18px;border:2px solid var(--box);border-radius:14px;font:inherit;
+     background:var(--card);color:inherit;margin-bottom:16px}
+  #q:focus{outline:none;border-color:var(--red)}
+  .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:10px}
+  .item{border:2px solid var(--box);border-radius:14px;padding:16px 18px;background:var(--card);
+        text-align:left;font:inherit;color:inherit;cursor:pointer;transition:border-color .15s}
+  .item:hover,.item:focus-visible{border-color:var(--red);outline:none}
+  .item b{display:block;font-size:17px;font-weight:700;letter-spacing:-.01em}
+  .item span{display:block;color:var(--gray);font-size:14px;margin-top:4px}
+  .empty{color:var(--gray);font-size:15px;padding:10px 2px}
+
+  .note{margin-top:42px;font-size:14px;color:var(--gray);line-height:1.85}
   .note b{color:var(--ink)}
   .note a{color:var(--red)}
   kbd{background:var(--box);border-radius:6px;padding:2px 7px;font-size:13px;font-family:inherit}
 
-  /* 재생 화면 */
   #stage{position:fixed;inset:0;background:#000;display:none;z-index:99}
   #stage.on{display:block}
   #stage video{width:100%;height:100%;object-fit:contain;background:#000}
-  #close{
-    position:fixed;top:18px;right:18px;z-index:100;border:0;border-radius:99px;
-    background:rgba(255,255,255,.14);color:#fff;font:inherit;font-weight:700;
-    padding:11px 20px;cursor:pointer;opacity:0;transition:opacity .2s
-  }
-  #stage:hover #close, #close:focus-visible{opacity:1}
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){--bg:#101014;--ink:#F3F3F5;--box:#2A2A31;--gray:#9A9AA4}
-    :root:not([data-theme="light"]) .card{background:#17171C}
+  #close{position:fixed;top:18px;right:18px;z-index:100;border:0;border-radius:99px;
+         background:rgba(255,255,255,.14);color:#fff;font:inherit;font-weight:700;
+         padding:11px 20px;cursor:pointer;opacity:0;transition:opacity .2s}
+  #stage:hover #close,#close:focus-visible{opacity:1}
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){--bg:#101014;--ink:#F3F3F5;--box:#2A2A31;--gray:#9A9AA4;--card:#17171C}
   }
 </style>
 </head>
@@ -77,28 +80,36 @@
   </p>
 
   <div class="cards">
-    <button class="card" data-src="media/opening.mp4" data-loop="0" id="btn-open">
+    <button class="card" id="btn-open">
       <span class="tag">수업 시작 전</span>
       <h2>오프닝</h2>
-      <p>컨소시엄 소개와 교육 안내.<br>입실 시간에 한 번 재생합니다.</p>
+      <p>컨소시엄 소개와 출결·시설 안내.<br>입실 시간에 한 번 재생합니다.</p>
       <div class="meta"><span>1분 24초 · 소리 있음</span><span class="play">재생 ▶</span></div>
     </button>
 
-    <button class="card" data-src="media/closing.mp4" data-loop="1" id="btn-close">
+    <button class="card" id="btn-close">
       <span class="tag gray">수업 종료 후</span>
       <h2>클로징</h2>
-      <p>다음 과정 안내와 개강 일정.<br>퇴실 시간에 반복 재생합니다.</p>
-      <div class="meta"><span>3분 27초 · 배경음 · 반복</span><span class="play">재생 ▶</span></div>
+      <p>오늘 수업한 과정 이후에 열리는 과정을 안내합니다.<br>과정을 고르면 그 교실용 영상이 재생됩니다.</p>
+      <div class="meta"><span id="close-meta">과정 고르기</span><span class="play">고르기 ▸</span></div>
     </button>
   </div>
 
+  <section id="picker">
+    <h3>오늘 수업한 과정 고르기</h3>
+    <p class="hint">
+      고른 과정의 <b>개강일 이후</b>에 열리는 과정만 담긴 영상이 재생됩니다. 폐강된 차수는 빠집니다.<br>
+      퇴실 시간 동안 반복 재생됩니다.
+    </p>
+    <input id="q" type="search" placeholder="과정명 검색 (예: OpenClaw, Azure, 바이브)" autocomplete="off">
+    <div class="list" id="list"></div>
+  </section>
+
   <p class="note">
-    <b>클로징에 담긴 일정</b> — 2026-09-18 기준, 모집중 22개 과정 카드 + 9~12월 개강 81차수.
-    폐강된 차수는 빼고 만듭니다. 일정이 바뀌면 생성기를 다시 돌려 영상을 교체합니다.<br>
-    <b>배경음</b> — 카페 같은 낮은 룸톤을 합성해 넣었습니다(외부 음원 없음). 오프닝보다 조용하게 맞췄습니다.<br>
-    <b>인터넷이 느린 강의실</b> — 영상을 내려받아 두면 더 안정적입니다 ·
-    <a href="media/opening.mp4" download>오프닝 내려받기</a> ·
-    <a href="media/closing.mp4" download>클로징 내려받기</a>
+    <b>담기는 내용</b> — 모집중 과정 카드 + 월별 개강 일정. 일정·모집상태는 교육일정 구글 시트를 그대로 따릅니다.<br>
+    <b>배경음</b> — 카페 같은 낮은 룸톤을 합성해 넣었습니다(외부 음원 없음). 오프닝보다 조용합니다.<br>
+    <b>바로가기</b> — 주소 뒤에 <kbd>?c=과정코드</kbd>를 붙이면 그 과정 클로징으로 바로 들어갑니다.<br>
+    <b>인터넷이 느린 강의실</b> — <a href="media/opening.mp4" download>오프닝 내려받기</a>
   </p>
 </div>
 
@@ -110,16 +121,19 @@
 <script>
   const stage = document.getElementById('stage');
   const player = document.getElementById('player');
+  const picker = document.getElementById('picker');
+  const list = document.getElementById('list');
+  const q = document.getElementById('q');
+  let closings = [];
 
   function play(src, loop){
     player.src = src;
     player.loop = !!loop;
     stage.classList.add('on');
     const go = player.play();
-    if (go && go.catch) go.catch(()=>{});           // 자동재생이 막히면 컨트롤로 재생
+    if (go && go.catch) go.catch(()=>{});
     if (stage.requestFullscreen) stage.requestFullscreen().catch(()=>{});
   }
-
   function stop(){
     player.pause();
     player.removeAttribute('src');
@@ -127,23 +141,63 @@
     stage.classList.remove('on');
     if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(()=>{});
   }
+  function mmss(s){
+    s = Math.round(s || 0);
+    return s >= 60 ? `${Math.floor(s/60)}분 ${s%60}초` : `${s}초`;
+  }
+  function ymd(s){
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || '');
+    return m ? `${+m[2]}.${+m[3]} 개강` : '';
+  }
 
-  document.querySelectorAll('.card').forEach(b=>{
-    b.addEventListener('click', ()=> play(b.dataset.src, b.dataset.loop === '1'));
+  function render(filter){
+    const f = (filter || '').trim().toLowerCase();
+    const rows = closings.filter(c => !f || (c.course + ' ' + c.id).toLowerCase().includes(f));
+    list.innerHTML = '';
+    if (!rows.length){
+      list.innerHTML = '<p class="empty">해당하는 과정이 없습니다.</p>';
+      return;
+    }
+    for (const c of rows){
+      const b = document.createElement('button');
+      b.className = 'item';
+      b.innerHTML = '<b></b><span></span>';
+      b.querySelector('b').textContent = c.course || c.id;
+      b.querySelector('span').textContent =
+        [ymd(c.base_day), `이후 ${c.sessions}차수`, mmss(c.dur)].filter(Boolean).join(' · ');
+      b.addEventListener('click', ()=> play('media/closings/' + encodeURIComponent(c.file), true));
+      list.appendChild(b);
+    }
+  }
+
+  fetch('media/closings/closings.json')
+    .then(r => r.ok ? r.json() : [])
+    .then(d => {
+      closings = d;
+      document.getElementById('close-meta').textContent =
+        closings.length ? `${closings.length}개 과정` : '아직 만든 영상이 없습니다';
+      render('');
+      const c = new URLSearchParams(location.search).get('c');
+      const hit = closings.find(x => x.id === c);
+      if (hit) { picker.classList.add('on'); play('media/closings/' + encodeURIComponent(hit.file), true); }
+    })
+    .catch(()=>{ document.getElementById('close-meta').textContent = '목록을 불러오지 못했습니다'; });
+
+  document.getElementById('btn-open').addEventListener('click', ()=> play('media/opening.mp4', false));
+  document.getElementById('btn-close').addEventListener('click', ()=>{
+    picker.classList.toggle('on');
+    if (picker.classList.contains('on')) { picker.scrollIntoView({behavior:'smooth'}); q.focus(); }
   });
   document.getElementById('close').addEventListener('click', stop);
+  q.addEventListener('input', e => render(e.target.value));
+
   document.addEventListener('keydown', e=>{
-    if (e.key === 'Escape' && stage.classList.contains('on')) stop();
-    if (stage.classList.contains('on')) return;
+    if (e.key === 'Escape' && stage.classList.contains('on')) { stop(); return; }
+    if (stage.classList.contains('on') || document.activeElement === q) return;
     if (e.key === 'o' || e.key === 'O') document.getElementById('btn-open').click();
     if (e.key === 'c' || e.key === 'C') document.getElementById('btn-close').click();
   });
   player.addEventListener('ended', ()=>{ if (!player.loop) stop(); });
-
-  // 주소 뒤에 ?v=open / ?v=close 를 붙이면 그 영상으로 바로 들어간다(재생 버튼 한 번은 눌러야 함)
-  const v = new URLSearchParams(location.search).get('v');
-  if (v === 'open') document.getElementById('btn-open').focus();
-  if (v === 'close') document.getElementById('btn-close').focus();
 </script>
 </body>
 </html>
