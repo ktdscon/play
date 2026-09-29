@@ -34,13 +34,13 @@
         display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--gray)}
   .play{font-weight:800;color:var(--red)}
 
-  #picker{display:none;margin-top:34px;border-top:2px solid var(--box);padding-top:28px}
-  #picker.on{display:block}
-  #picker h3{font-size:22px;font-weight:800;margin:0 0 4px}
-  #picker .hint{color:var(--gray);font-size:15px;margin:0 0 18px;line-height:1.6}
-  #q{width:100%;padding:15px 18px;border:2px solid var(--box);border-radius:14px;font:inherit;
+  #picker,#mpicker{display:none;margin-top:34px;border-top:2px solid var(--box);padding-top:28px}
+  #picker.on,#mpicker.on{display:block}
+  #picker h3,#mpicker h3{font-size:22px;font-weight:800;margin:0 0 4px}
+  #picker .hint,#mpicker .hint{color:var(--gray);font-size:15px;margin:0 0 18px;line-height:1.6}
+  #q,#mq{width:100%;padding:15px 18px;border:2px solid var(--box);border-radius:14px;font:inherit;
      background:var(--card);color:inherit;margin-bottom:16px}
-  #q:focus{outline:none;border-color:var(--red)}
+  #q:focus,#mq:focus{outline:none;border-color:var(--red)}
   .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:10px}
   .item{border:2px solid var(--box);border-radius:14px;padding:16px 18px;background:var(--card);
         text-align:left;font:inherit;color:inherit;cursor:pointer;transition:border-color .15s}
@@ -48,6 +48,14 @@
   .item b{display:block;font-size:17px;font-weight:700;letter-spacing:-.01em}
   .item span{display:block;color:var(--gray);font-size:14px;margin-top:4px}
   .empty{color:var(--gray);font-size:15px;padding:10px 2px}
+  .mcourse{border:2px solid var(--box);border-radius:14px;padding:18px 20px;margin-bottom:10px}
+  .mcourse b{display:block;font-size:16px;font-weight:700;margin-bottom:10px}
+  .mfile{display:flex;align-items:center;justify-content:space-between;gap:12px;
+         padding:10px 0;border-top:1px solid var(--box)}
+  .mfile:first-of-type{border-top:none}
+  .mfile span{font-size:14px;color:var(--gray)}
+  .mfile a{font-weight:700;color:var(--red);text-decoration:none;white-space:nowrap}
+  .mfile a:hover{text-decoration:underline}
 
   .note{margin-top:42px;font-size:14px;color:var(--gray);line-height:1.85}
   .note b{color:var(--ink)}
@@ -93,6 +101,13 @@
       <p>오늘 수업한 과정 이후에 열리는 과정을 안내합니다.<br>과정을 고르면 그 교실용 영상이 재생됩니다.</p>
       <div class="meta"><span id="close-meta">과정 고르기</span><span class="play">고르기 ▸</span></div>
     </button>
+
+    <button class="card" id="btn-material">
+      <span class="tag gray">자료</span>
+      <h2>교재·자료</h2>
+      <p>과정별 교재·자료를 내려받습니다.<br>과정을 고르면 파일 목록이 나옵니다.</p>
+      <div class="meta"><span id="material-meta">과정 고르기</span><span class="play">고르기 ▸</span></div>
+    </button>
   </div>
 
   <section id="picker">
@@ -103,6 +118,13 @@
     </p>
     <input id="q" type="search" placeholder="과정명 검색 (예: OpenClaw, Azure, 바이브)" autocomplete="off">
     <div class="list" id="list"></div>
+  </section>
+
+  <section id="mpicker">
+    <h3>자료 내려받을 과정 고르기</h3>
+    <p class="hint">과정을 고르면 그 과정에 올라온 파일 목록이 나옵니다. 파일을 누르면 내려받습니다.</p>
+    <input id="mq" type="search" placeholder="과정명 검색" autocomplete="off">
+    <div class="list" id="mlist"></div>
   </section>
 
   <p class="note">
@@ -193,11 +215,70 @@
 
   document.addEventListener('keydown', e=>{
     if (e.key === 'Escape' && stage.classList.contains('on')) { stop(); return; }
-    if (stage.classList.contains('on') || document.activeElement === q) return;
+    if (stage.classList.contains('on') || document.activeElement === q || document.activeElement === mq) return;
     if (e.key === 'o' || e.key === 'O') document.getElementById('btn-open').click();
     if (e.key === 'c' || e.key === 'C') document.getElementById('btn-close').click();
   });
   player.addEventListener('ended', ()=>{ if (!player.loop) stop(); });
+
+  // --- 교재·자료 ---
+  const mpicker = document.getElementById('mpicker');
+  const mlist = document.getElementById('mlist');
+  const mq = document.getElementById('mq');
+  let materials = [];
+
+  function fmtSize(bytes){
+    if (!bytes) return '';
+    const mb = bytes / (1024 * 1024);
+    return mb >= 1 ? `${mb.toFixed(1)}MB` : `${Math.round(bytes / 1024)}KB`;
+  }
+
+  function renderMaterials(filter){
+    const f = (filter || '').trim().toLowerCase();
+    const rows = materials.filter(c => !f || (c.course + ' ' + c.id).toLowerCase().includes(f));
+    mlist.innerHTML = '';
+    if (!rows.length){
+      mlist.innerHTML = '<p class="empty">해당하는 과정이 없습니다.</p>';
+      return;
+    }
+    for (const c of rows){
+      const box = document.createElement('div');
+      box.className = 'mcourse';
+      const b = document.createElement('b');
+      b.textContent = c.course || c.id;
+      box.appendChild(b);
+      for (const file of (c.files || [])){
+        const row = document.createElement('div');
+        row.className = 'mfile';
+        const left = document.createElement('span');
+        left.textContent = file.name + (file.bytes ? ` · ${fmtSize(file.bytes)}` : '');
+        const a = document.createElement('a');
+        a.href = 'media/materials/' + file.path.split('/').map(encodeURIComponent).join('/');
+        a.textContent = '내려받기';
+        a.setAttribute('download', '');
+        row.appendChild(left);
+        row.appendChild(a);
+        box.appendChild(row);
+      }
+      mlist.appendChild(box);
+    }
+  }
+
+  fetch('media/materials/materials.json')
+    .then(r => r.ok ? r.json() : [])
+    .then(d => {
+      materials = d;
+      document.getElementById('material-meta').textContent =
+        materials.length ? `${materials.length}개 과정` : '아직 올라온 자료가 없습니다';
+      renderMaterials('');
+    })
+    .catch(()=>{ document.getElementById('material-meta').textContent = '목록을 불러오지 못했습니다'; });
+
+  document.getElementById('btn-material').addEventListener('click', ()=>{
+    mpicker.classList.toggle('on');
+    if (mpicker.classList.contains('on')) { mpicker.scrollIntoView({behavior:'smooth'}); mq.focus(); }
+  });
+  mq.addEventListener('input', e => renderMaterials(e.target.value));
 </script>
 </body>
 </html>
