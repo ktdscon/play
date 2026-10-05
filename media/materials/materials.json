@@ -10,5 +10,17 @@
         "uploaded": "2026-09-29"
       }
     ]
+  },
+  {
+    "id": "NotebookLM",
+    "course": "NotebookLM 실무 마스터 과정(지식 관리에서 콘텐츠 자동화까지)",
+    "files": [
+      {
+        "name": "교재 (zip)",
+        "path": "NotebookLM/교재_NotebookLM_실무_마스터_과정.zip",
+        "bytes": 22897132,
+        "uploaded": "2026-10-05"
+      }
+    ]
   }
 ]
