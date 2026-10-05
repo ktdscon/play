@@ -96,7 +96,7 @@
     </button>
 
     <button class="card" id="btn-close">
-      <span class="tag gray">수업 종료 후</span>
+      <span class="tag gray">쉬는 시간 · 수업 종료 후</span>
       <h2>클로징</h2>
       <p>오늘 수업한 과정 이후에 열리는 과정을 안내합니다.<br>과정을 고르면 그 교실용 영상이 재생됩니다.</p>
       <div class="meta"><span id="close-meta">과정 고르기</span><span class="play">고르기 ▸</span></div>
@@ -114,7 +114,7 @@
     <h3>오늘 수업한 과정 고르기</h3>
     <p class="hint">
       고른 과정의 <b>개강일 이후</b>에 열리는 과정만 담긴 영상이 재생됩니다. 폐강된 차수는 빠집니다.<br>
-      퇴실 시간 동안 반복 재생됩니다.
+      쉬는 시간과 퇴실 시간에 반복 재생됩니다.
     </p>
     <input id="q" type="search" placeholder="과정명 검색 (예: OpenClaw, Azure, 바이브)" autocomplete="off">
     <div class="list" id="list"></div>
@@ -169,9 +169,18 @@
     return m ? `${+m[2]}.${+m[3]} 개강` : '';
   }
 
+  // 종료일이 오늘보다 앞선 과정은 목록에서 숨긴다(종료일 당일까지는 보임).
+  // 며칠짜리 과정이 중간에 사라지지 않도록 개강일이 아니라 종료일 기준.
+  function todayStr(){
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+  function isFinished(c){ return !!c.end_day && c.end_day < todayStr(); }
+
   function render(filter){
     const f = (filter || '').trim().toLowerCase();
-    const rows = closings.filter(c => !f || (c.course + ' ' + c.id).toLowerCase().includes(f));
+    const rows = closings.filter(c => !isFinished(c))
+      .filter(c => !f || (c.course + ' ' + c.id).toLowerCase().includes(f));
     list.innerHTML = '';
     if (!rows.length){
       list.innerHTML = '<p class="empty">해당하는 과정이 없습니다.</p>';
@@ -193,8 +202,9 @@
     .then(r => r.ok ? r.json() : [])
     .then(d => {
       closings = d;
+      const active = closings.filter(c => !isFinished(c)).length;
       document.getElementById('close-meta').textContent =
-        closings.length ? `${closings.length}개 과정` : '아직 만든 영상이 없습니다';
+        active ? `${active}개 과정` : '지금 진행 중인 과정이 없습니다';
       render('');
       const c = new URLSearchParams(location.search).get('c');
       const hit = closings.find(x => x.id === c);

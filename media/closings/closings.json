@@ -7,16 +7,18 @@
     "sessions": 77,
     "cards": 23,
     "dur": 199.6,
-    "built": "2026-09-28"
+    "built": "2026-09-28",
+    "end_day": "2026-09-29"
   },
   {
     "id": "NotebookLM",
     "file": "클로징_NotebookLM.mp4",
     "course": "NotebookLM 실무 마스터 과정(지식 관리에서 콘텐츠 자동화까지)",
     "base_day": "2026-10-06",
+    "end_day": "2026-10-06",
     "sessions": 71,
     "cards": 21,
-    "dur": 202.2,
+    "dur": 197.7,
     "built": "2026-10-05"
   }
 ]
