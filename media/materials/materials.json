@@ -16,10 +16,10 @@
     "course": "NotebookLM 실무 마스터 과정(지식 관리에서 콘텐츠 자동화까지)",
     "files": [
       {
-        "name": "교재 (zip)",
-        "path": "NotebookLM/교재_NotebookLM_실무_마스터_과정.zip",
-        "bytes": 22897132,
-        "uploaded": "2026-10-05"
+        "name": "교재 (zip, 10/6 업데이트)",
+        "path": "NotebookLM/20261006_교재_NotebookLM_실무_마스터_과정.zip",
+        "bytes": 15557055,
+        "uploaded": "2026-10-06"
       }
     ]
   }
