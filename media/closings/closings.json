@@ -39,6 +39,7 @@
     "base_day": "2026-10-27",
     "end_day": "2026-10-28",
     "tail_video": "볼펜 all_자막완성.mp4",
+    "tail_sound": true,
     "sessions": 49,
     "cards": 22,
     "dur": 196.9,
