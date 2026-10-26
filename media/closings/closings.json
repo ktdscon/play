@@ -38,9 +38,10 @@
     "course": "개발자를 위한 보안 실무_기초",
     "base_day": "2026-10-27",
     "end_day": "2026-10-28",
-    "sessions": 47,
-    "cards": 21,
-    "dur": 171.7,
-    "built": "2026-10-21"
+    "tail_video": "볼펜 all_자막완성.mp4",
+    "sessions": 49,
+    "cards": 22,
+    "dur": 196.9,
+    "built": "2026-10-26"
   }
 ]
