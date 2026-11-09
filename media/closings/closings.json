@@ -57,5 +57,31 @@
     "cards": 23,
     "dur": 242.0,
     "built": "2026-10-27"
+  },
+  {
+    "id": "보안실무심화",
+    "file": "클로징_보안실무심화.mp4",
+    "course": "개발자를 위한 보안 실무_심화",
+    "base_day": "2026-11-10",
+    "end_day": "2026-11-11",
+    "tail_video": "볼펜 all_자막완성.mp4",
+    "tail_sound": true,
+    "sessions": 39,
+    "cards": 20,
+    "dur": 180.0,
+    "built": "2026-11-09"
+  },
+  {
+    "id": "보안실무심화_2일차",
+    "file": "클로징_보안실무심화_2일차.mp4",
+    "course": "개발자를 위한 보안 실무_심화 · 2일차",
+    "base_day": "2026-11-10",
+    "end_day": "2026-11-11",
+    "tail_video": "n8n 소라.mp4",
+    "tail_sound": true,
+    "sessions": 39,
+    "cards": 20,
+    "dur": 210.6,
+    "built": "2026-11-09"
   }
 ]
