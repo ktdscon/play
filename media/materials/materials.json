@@ -5,6 +5,12 @@
     "notice": "수업 전 Google 계정 2개와 GitHub 계정 1개를 준비해 주세요. 첫 Google 계정의 일일 사용 한도에 도달하면 두 번째 계정으로 실습을 이어갑니다. Notion 교재 링크는 수업 당일 안내합니다.",
     "files": [
       {
+        "name": "11월 14일 강의파일 (원본 ZIP)",
+        "url": "https://github.com/ktdscon/play/releases/download/gemini-20261114/Gemini-Antigravity-Class.zip",
+        "bytes": 466843394,
+        "uploaded": "2026-11-13"
+      },
+      {
         "name": "강의장 설치 프로그램 및 설치 가이드 (ZIP)",
         "url": "https://github.com/ktdscon/play/releases/download/gemini-20261114/Gemini-Antigravity-Setup.zip",
         "bytes": 468059526,
