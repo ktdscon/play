@@ -254,13 +254,18 @@
       const b = document.createElement('b');
       b.textContent = c.course || c.id;
       box.appendChild(b);
+      if (c.notice){
+        const note = document.createElement('p');
+        note.textContent = c.notice;
+        box.appendChild(note);
+      }
       for (const file of (c.files || [])){
         const row = document.createElement('div');
         row.className = 'mfile';
         const left = document.createElement('span');
         left.textContent = file.name + (file.bytes ? ` · ${fmtSize(file.bytes)}` : '');
         const a = document.createElement('a');
-        a.href = 'media/materials/' + file.path.split('/').map(encodeURIComponent).join('/');
+        a.href = file.url || 'media/materials/' + file.path.split('/').map(encodeURIComponent).join('/');
         a.textContent = '내려받기';
         a.setAttribute('download', '');
         row.appendChild(left);

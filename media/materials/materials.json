@@ -1,5 +1,18 @@
 [
   {
+    "id": "GeminiAntigravity",
+    "course": "Gemini Antigravity 로 시작하는 바이브 코딩",
+    "notice": "수업 전 Google 계정 2개와 GitHub 계정 1개를 준비해 주세요. 첫 Google 계정의 일일 사용 한도에 도달하면 두 번째 계정으로 실습을 이어갑니다. Notion 교재 링크는 수업 당일 안내합니다.",
+    "files": [
+      {
+        "name": "강의장 설치 프로그램 및 설치 가이드 (ZIP)",
+        "url": "https://github.com/ktdscon/play/releases/download/gemini-20261114/Gemini-Antigravity-Setup.zip",
+        "bytes": 468059526,
+        "uploaded": "2026-11-13"
+      }
+    ]
+  },
+  {
     "id": "OpenClaw",
     "course": "OpenClaw AI Agent 실무 자동화 마스터 과정(AI Agent 구축에서 업무 자동화 시스템까지)",
     "files": [

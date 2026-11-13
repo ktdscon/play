@@ -83,5 +83,18 @@
     "cards": 20,
     "dur": 210.6,
     "built": "2026-11-09"
+  },
+  {
+    "id": "GeminiAntigravity",
+    "file": "클로징_GeminiAntigravity.mp4",
+    "course": "Gemini Antigravity 로 시작하는 바이브 코딩",
+    "base_day": "2026-11-14",
+    "end_day": "2026-11-14",
+    "tail_video": "볼펜 all_자막완성.mp4",
+    "tail_sound": true,
+    "sessions": 34,
+    "cards": 19,
+    "dur": 161.8,
+    "built": "2026-11-13"
   }
 ]
