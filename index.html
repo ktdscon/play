@@ -267,7 +267,36 @@
         const a = document.createElement('a');
         a.href = file.url || 'media/materials/' + file.path.split('/').map(encodeURIComponent).join('/');
         a.textContent = '내려받기';
-        a.setAttribute('download', '');
+        a.setAttribute('download', file.name);
+        if (file.parts){
+          a.href = '#';
+          a.onclick = async event => {
+            event.preventDefault();
+            if (a.dataset.busy) return;
+            a.dataset.busy = '1';
+            try {
+              const chunks = [];
+              for (const path of file.parts){
+                a.textContent = '받는 중 ' + (chunks.length + 1) + '/' + file.parts.length;
+                const response = await fetch(path);
+                if (!response.ok) throw Error();
+                chunks.push(await response.blob());
+              }
+              const blob = new Blob(chunks, {type: 'application/zip'});
+              if (blob.size !== file.bytes) throw Error();
+              const link = document.createElement('a');
+              link.href = URL.createObjectURL(blob);
+              link.download = file.name;
+              link.click();
+              setTimeout(() => URL.revokeObjectURL(link.href), 60000);
+              a.textContent = '다시 내려받기';
+            } catch {
+              a.textContent = '다운로드 실패 · 다시 시도';
+            } finally {
+              delete a.dataset.busy;
+            }
+          };
+        }
         row.appendChild(left);
         row.appendChild(a);
         box.appendChild(row);
