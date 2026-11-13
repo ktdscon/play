@@ -11,41 +11,5 @@
         "uploaded": "2026-11-13"
       }
     ]
-  },
-  {
-    "id": "OpenClaw",
-    "course": "OpenClaw AI Agent 실무 자동화 마스터 과정(AI Agent 구축에서 업무 자동화 시스템까지)",
-    "files": [
-      {
-        "name": "교재 (1~3장 PDF, zip)",
-        "path": "OpenClaw/20260928_교재_OpenClaw_AI_Agent_실무_자동화_마스터_과정.zip",
-        "bytes": 9939037,
-        "uploaded": "2026-09-29"
-      }
-    ]
-  },
-  {
-    "id": "NotebookLM",
-    "course": "NotebookLM 실무 마스터 과정(지식 관리에서 콘텐츠 자동화까지)",
-    "files": [
-      {
-        "name": "교재 (zip, 10/6 업데이트)",
-        "path": "NotebookLM/20261006_교재_NotebookLM_실무_마스터_과정.zip",
-        "bytes": 15557055,
-        "uploaded": "2026-10-06"
-      }
-    ]
-  },
-  {
-    "id": "AI품질테스트",
-    "course": "AI의 AI에 의한 품질과 테스트",
-    "files": [
-      {
-        "name": "교재 (PDF, v1.0)",
-        "path": "AI품질테스트/20261020_교재_AI의_AI에_의한_품질과_테스트_v1.0.pdf",
-        "bytes": 7973357,
-        "uploaded": "2026-10-19"
-      }
-    ]
   }
 ]
